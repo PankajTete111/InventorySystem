@@ -1,12 +1,12 @@
 const db = require('../config/db');
 
 async function getAllCategories() {
-  const [rows] = await db.query('SELECT * FROM categories');
+  const [rows] = await db.query('SELECT * FROM categories WHERE is_active = 1');
   return rows;
 }
 
 async function getCategoryById(id) {
-  const [rows] = await db.query('SELECT * FROM categories WHERE id = ?', [id]);
+  const [rows] = await db.query('SELECT * FROM categories WHERE id = ? AND is_active = 1', [id]);
   return rows[0];
 }
 
@@ -22,7 +22,7 @@ async function updateCategory(id, category) {
 }
 
 async function deleteCategory(id) {
-  await db.query('DELETE FROM categories WHERE id = ?', [id]);
+  await db.query('UPDATE categories SET is_active = 0 WHERE id = ?', [id]);
 }
 
 module.exports = {

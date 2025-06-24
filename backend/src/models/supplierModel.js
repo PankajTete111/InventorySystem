@@ -1,12 +1,12 @@
 const db = require('../config/db');
 
 async function getAllSuppliers() {
-  const [rows] = await db.query('SELECT * FROM suppliers');
+  const [rows] = await db.query('SELECT * FROM suppliers WHERE is_active = 1');
   return rows;
 }
 
 async function getSupplierById(id) {
-  const [rows] = await db.query('SELECT * FROM suppliers WHERE id = ?', [id]);
+  const [rows] = await db.query('SELECT * FROM suppliers WHERE id = ? AND is_active = 1', [id]);
   return rows[0];
 }
 
@@ -22,7 +22,7 @@ async function updateSupplier(id, supplier) {
 }
 
 async function deleteSupplier(id) {
-  await db.query('DELETE FROM suppliers WHERE id = ?', [id]);
+  await db.query('UPDATE suppliers SET is_active = 0 WHERE id = ?', [id]);
 }
 
 module.exports = {

@@ -1,12 +1,12 @@
 const db = require('../config/db');
 
 async function getAllInvoices() {
-  const [rows] = await db.query('SELECT * FROM invoices');
+  const [rows] = await db.query('SELECT * FROM invoices WHERE is_active = 1');
   return rows;
 }
 
 async function getInvoiceById(id) {
-  const [rows] = await db.query('SELECT * FROM invoices WHERE id = ?', [id]);
+  const [rows] = await db.query('SELECT * FROM invoices WHERE id = ? AND is_active = 1', [id]);
   return rows[0];
 }
 
@@ -22,7 +22,7 @@ async function updateInvoice(id, invoice) {
 }
 
 async function deleteInvoice(id) {
-  await db.query('DELETE FROM invoices WHERE id = ?', [id]);
+  await db.query('UPDATE invoices SET is_active = 0 WHERE id = ?', [id]);
 }
 
 module.exports = {

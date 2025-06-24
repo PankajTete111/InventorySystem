@@ -1,12 +1,12 @@
 const pool = require('../config/db');
 
 const getAllProducts = async () => {
-  const [rows] = await pool.query('SELECT p.*, b.name as brand, c.name as category FROM products p LEFT JOIN brands b ON p.brand_id = b.id LEFT JOIN categories c ON p.category_id = c.id');
+  const [rows] = await pool.query('SELECT * FROM products WHERE is_active = 1');
   return rows;
 };
 
 const getProductById = async (id) => {
-  const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [id]);
+  const [rows] = await pool.query('SELECT * FROM products WHERE id = ? AND is_active = 1', [id]);
   return rows[0];
 };
 
@@ -22,7 +22,7 @@ const updateProduct = async (id, product) => {
 };
 
 const deleteProduct = async (id) => {
-  await pool.query('DELETE FROM products WHERE id = ?', [id]);
+  await pool.query('UPDATE products SET is_active = 0 WHERE id = ?', [id]);
 };
 
 module.exports = {

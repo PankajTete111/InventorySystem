@@ -2,12 +2,12 @@ const db = require('../config/db');
 
 // Orders CRUD
 async function getAllOrders() {
-  const [rows] = await db.query('SELECT * FROM orders');
+  const [rows] = await db.query('SELECT * FROM orders WHERE is_active = 1');
   return rows;
 }
 
 async function getOrderById(id) {
-  const [rows] = await db.query('SELECT * FROM orders WHERE id = ?', [id]);
+  const [rows] = await db.query('SELECT * FROM orders WHERE id = ? AND is_active = 1', [id]);
   return rows[0];
 }
 
@@ -23,12 +23,12 @@ async function updateOrder(id, order) {
 }
 
 async function deleteOrder(id) {
-  await db.query('DELETE FROM orders WHERE id = ?', [id]);
+  await db.query('UPDATE orders SET is_active = 0 WHERE id = ?', [id]);
 }
 
 // Order Items CRUD
 async function getOrderItems(order_id) {
-  const [rows] = await db.query('SELECT * FROM order_items WHERE order_id = ?', [order_id]);
+  const [rows] = await db.query('SELECT * FROM order_items WHERE order_id = ? AND is_active = 1', [order_id]);
   return rows;
 }
 
@@ -39,7 +39,7 @@ async function addOrderItem(item) {
 }
 
 async function deleteOrderItem(id) {
-  await db.query('DELETE FROM order_items WHERE id = ?', [id]);
+  await db.query('UPDATE order_items SET is_active = 0 WHERE id = ?', [id]);
 }
 
 module.exports = {

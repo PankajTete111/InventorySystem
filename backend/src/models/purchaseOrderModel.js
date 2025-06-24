@@ -2,12 +2,12 @@ const db = require('../config/db');
 
 // Purchase Orders CRUD
 async function getAllPurchaseOrders() {
-  const [rows] = await db.query('SELECT * FROM purchase_orders');
+  const [rows] = await db.query('SELECT * FROM purchase_orders WHERE is_active = 1');
   return rows;
 }
 
 async function getPurchaseOrderById(id) {
-  const [rows] = await db.query('SELECT * FROM purchase_orders WHERE id = ?', [id]);
+  const [rows] = await db.query('SELECT * FROM purchase_orders WHERE id = ? AND is_active = 1', [id]);
   return rows[0];
 }
 
@@ -23,12 +23,12 @@ async function updatePurchaseOrder(id, order) {
 }
 
 async function deletePurchaseOrder(id) {
-  await db.query('DELETE FROM purchase_orders WHERE id = ?', [id]);
+  await db.query('UPDATE purchase_orders SET is_active = 0 WHERE id = ?', [id]);
 }
 
 // Purchase Order Items CRUD
 async function getPurchaseOrderItems(purchase_order_id) {
-  const [rows] = await db.query('SELECT * FROM purchase_order_items WHERE purchase_order_id = ?', [purchase_order_id]);
+  const [rows] = await db.query('SELECT * FROM purchase_order_items WHERE purchase_order_id = ? AND is_active = 1', [purchase_order_id]);
   return rows;
 }
 
@@ -39,7 +39,7 @@ async function addPurchaseOrderItem(item) {
 }
 
 async function deletePurchaseOrderItem(id) {
-  await db.query('DELETE FROM purchase_order_items WHERE id = ?', [id]);
+  await db.query('UPDATE purchase_order_items SET is_active = 0 WHERE id = ?', [id]);
 }
 
 module.exports = {

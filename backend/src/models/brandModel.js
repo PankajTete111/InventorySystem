@@ -1,12 +1,12 @@
 const db = require('../config/db');
 
 async function getAllBrands() {
-  const [rows] = await db.query('SELECT * FROM brands');
+  const [rows] = await db.query('SELECT * FROM brands WHERE is_active = 1');
   return rows;
 }
 
 async function getBrandById(id) {
-  const [rows] = await db.query('SELECT * FROM brands WHERE id = ?', [id]);
+  const [rows] = await db.query('SELECT * FROM brands WHERE id = ? AND is_active = 1', [id]);
   return rows[0];
 }
 
@@ -22,7 +22,7 @@ async function updateBrand(id, brand) {
 }
 
 async function deleteBrand(id) {
-  await db.query('DELETE FROM brands WHERE id = ?', [id]);
+  await db.query('UPDATE brands SET is_active = 0 WHERE id = ?', [id]);
 }
 
 module.exports = {
