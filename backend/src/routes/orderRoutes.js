@@ -4,11 +4,11 @@ const orderController = require('../controllers/orderController');
 const authenticateToken = require('../middlewares/authMiddleware');
 
 // Orders
-router.get('/', authenticateToken, orderController.getAllOrders);
-router.get('/:id', authenticateToken, orderController.getOrderById);
-router.post('/', authenticateToken, orderController.createOrder);
-router.put('/:id', authenticateToken, orderController.updateOrder);
-router.delete('/:id', authenticateToken, orderController.deleteOrder);
+router.get('/getAll', authenticateToken, orderController.getAllOrders);
+router.get('/getOrder/:id', authenticateToken, orderController.getOrderById);
+router.post('/create', authenticateToken, orderController.createOrder);
+router.put('/updateOrder/:id', authenticateToken, orderController.updateOrder);
+router.delete('/deleteOrder/:id', authenticateToken, orderController.deleteOrder);
 
 // Order Items
 router.get('/:orderId/items', authenticateToken, orderController.getOrderItems);

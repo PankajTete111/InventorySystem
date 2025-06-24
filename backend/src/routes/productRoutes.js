@@ -5,8 +5,8 @@ const authenticateToken = require('../middlewares/authMiddleware');
 
 router.get('/', authenticateToken, productController.getAllProducts);
 router.get('/:id', authenticateToken, productController.getProductById);
-router.post('/', authenticateToken, productController.createProduct);
-router.put('/:id', authenticateToken, productController.updateProduct);
-router.delete('/:id', authenticateToken, productController.deleteProduct);
+router.post('/createProduct', authenticateToken, productController.createProduct);
+router.put('/update/:id', authenticateToken, productController.updateProduct);
+router.delete('/delete/:id', authenticateToken, productController.deleteProduct);
 
 module.exports = router; 
